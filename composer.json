@@ -1,0 +1,12 @@
+{
+    "name": "cylex/facebook-crawler",
+    "description": "Facebook crawler",
+    "license": "proprietary",
+    "require": {
+        "facebook/graph-sdk" : "5.0.*",
+         "opis/database": "^3.4.1"
+    },
+    "autoload": {
+        "psr-4": { "Cylex\\Crawlers\\Facebook\\": "lib/" }
+    }
+}
