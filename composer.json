@@ -1,8 +1,16 @@
 {
+<<<<<<< HEAD
     "name": "cylex/facebook-parser",
     "description": "Facebook Parser",
     "license": "proprietary",
     "require": {        
+=======
+    "name": "cylex/facebook-crawler",
+    "description": "Facebook crawler",
+    "license": "proprietary",
+    "require": {
+        "facebook/graph-sdk" : "5.0.*",
+>>>>>>> b2df68d33a7a18880ccf78a382af5df4298e95c1
          "opis/database": "^3.4.1"
     },
     "autoload": {
