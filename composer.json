@@ -1,0 +1,11 @@
+{
+    "name": "cylex/facebook-parser",
+    "description": "Facebook Parser",
+    "license": "proprietary",
+    "require": {        
+         "opis/database": "^3.4.1"
+    },
+    "autoload": {
+        "psr-4": { "Cylex\\Crawlers\\Facebook\\": "lib/" }
+    }
+}
