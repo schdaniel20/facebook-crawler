@@ -1,5 +1,5 @@
 <?php
-namespace Cylex\Crawlers\Facebook;
+namespace Cylex\Facebook\Parser;
 
 use Opis\Database\Database;
 use Opis\Database\Connection;

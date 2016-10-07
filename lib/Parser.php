@@ -1,6 +1,6 @@
 <?php
 
-namespace Cylex\Crawlers\Facebook;
+namespace Cylex\Facebook\Parser;
 
 class Parser {
     

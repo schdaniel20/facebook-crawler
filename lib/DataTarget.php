@@ -1,9 +1,10 @@
 <?php
 
-namespace Cylex\Crawlers\Facebook;
+namespace Cylex\Facebook\Parser;
 
 use Opis\Database\Database;
 use Opis\Database\Connection;
+use Exception;
 
 class DataTarget {
     
@@ -61,7 +62,7 @@ class DataTarget {
         {
             if(!in_array(strtoupper($key), $this->allowed))
             {
-                throw new e("Unknown table field $key");
+                throw new Exception("Unknown table field $key");
             }
         }
         $this->checked = true;
@@ -88,7 +89,7 @@ class DataTarget {
 		$value = substr($value, 0, -1);
 		$data = array_values($data);
 		try{
-            $this->connection->command("insert ignore`". $this->table ."` ". $keys. "values(" .$value. ")" , $data);
+            $this->connection->command("insert `". $this->table ."` ". $keys. "values(" .$value. ")" , $data);
         }
         catch (\Exception $e)
         {
@@ -122,6 +123,7 @@ class DataTarget {
     protected function createTable()
     {
         $command = "CREATE TABLE IF NOT EXISTS`{$this->table}` (
+                    `ID` int(11) NOT NULL,
                     `FBID` varchar(200) NOT NULL,
                     `LANG` varchar(45) NOT NULL,
                     `SESSIONID` int(11) DEFAULT NULL,
@@ -190,8 +192,8 @@ class DataTarget {
                     `PAGELINK` text,
                     `STATUS` varchar(100) DEFAULT NULL,
                     `CDATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                    PRIMARY KEY (`FBID`,`LANG`),
-                    UNIQUE KEY `count_constraint` (`SESSIONID`,`FBID`,`LANG`)
+                    PRIMARY KEY (`ID`),
+                    KEY `fbid-index` (`FBID`)
                   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
                   ";
         $this->connection->command($command);
