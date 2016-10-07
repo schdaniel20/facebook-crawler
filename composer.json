@@ -1,8 +1,9 @@
 {
-    "name": "cylex/facebook-parser",
-    "description": "Facebook Parser",
+    "name": "cylex/facebook-crawler",
+    "description": "Facebook crawler",
     "license": "proprietary",
-    "require": {        
+    "require": {
+        "facebook/graph-sdk" : "5.0.*",
          "opis/database": "^3.4.1"
     },
     "autoload": {
