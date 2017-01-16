@@ -44,7 +44,8 @@ class DataSource
             'id' => 'id',
             'lang' => 'lang',
             'country_code' => 'country_code',
-            'sessionId' => 'sessionId'
+            'sessionId' => 'sessionId',
+            'crw_fir_nr' => 'crw_fir_nr'
         );
         
         $this->fileds = $config['fields'];
@@ -77,10 +78,8 @@ class DataSource
     public function getNext()
     {
         $result = $this->db
-                       ->from($this->table)
-                       ->where($this->fileds['Url'])->notNull()
-                       ->andWhere($this->fileds['country_code'])->is($this->countryCode)
-                       ->andWhere($this->fileds['sessionId'])->is($this->sessionID)
+                       ->from($this->table)                       
+                       ->where($this->fileds['sessionId'])->is($this->sessionID)
                        ->andWhere('processed')->is(0)                       
                        ->limit($this->chunk)
                        ->distinct()
@@ -88,6 +87,7 @@ class DataSource
                             $this->fileds['Url'] => 'url',
                             $this->fileds['id'] => 'id',
                             $this->fileds['lang'] => 'lang',
+                            $this->fileds['crw_fir_nr'] => 'crw_fir_nr',
                        ))
                        ->all();
         $extr = array();
@@ -102,6 +102,7 @@ class DataSource
             if(preg_match('`^(.+\.?)?facebook.com/pages/[^/]+/(?P<fb>[0-9]+).*`', $firm->url, $matches))
             {
                 $extr['data'][$firm->id] = array(
+                    'crw_fir_nr' => $firm->crw_fir_nr,
                     'id' => $matches['fb'],
                     'locale' => $lang,
                 );
@@ -109,6 +110,7 @@ class DataSource
             elseif(preg_match('`^(.+\.?)?facebook.com/.*/pages/[^/]+/(?P<fb>[0-9]+).*`', $firm->url, $matches))
             {
                 $extr['data'][$firm->id] = array(
+                    'crw_fir_nr' => $firm->crw_fir_nr,
                     'id' => $matches['fb'],
                     'locale' => $lang,
                 );
@@ -118,6 +120,7 @@ class DataSource
                 if($matches['fb'] !== 'pages')
                 {
                     $extr['data'][$firm->id] = array(
+                        'crw_fir_nr' => $firm->crw_fir_nr,
                         'id' => $matches['fb'],
                         'locale' => $lang,
                     );
@@ -127,6 +130,7 @@ class DataSource
                     if($matches['fb'] !== 'pages')
                     {
                         $extr['data'][$firm->id] = array(
+                            'crw_fir_nr' => $firm->crw_fir_nr,
                             'id' => $matches['fb'],
                             'locale' => $lang,
                         );

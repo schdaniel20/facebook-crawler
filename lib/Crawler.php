@@ -44,56 +44,59 @@ class Crawler
             $batch = array();
             
             $data = $this->source->getNext();
+           // print_r($data);
+            //sleep(2);
             
-            if(!isset($data['data'])) 
-            {
-                if(isset($data['allfirnr']))
-                {
-                    $this->source->updateProcessed($data['allfirnr'], 1);
-                }
-                
-                break;
-            }
-            
-            foreach($data['data'] as $firnr => &$fb)
-            {
-                $batch[$firnr] = $app->request('GET', '/' . $fb['id'] . '?fields=' . $queryFields . '&locale=' . $fb['locale']);
-            }
-            
-            try
-            {
-                $responses = $app->sendBatchRequest($batch);
-            }
-            catch(Exception $e)
-            {
-                continue;
-            }
-            
-            foreach($responses as $firnr => $response)
-            {
-                $body = null;
-                $data['data'][$firnr]['statusCode'] = 0;
-                $body = $response->getBody();
-                
-                if($response->isError())
-                {
-                    $body = json_decode($body, true);
-                    $errorHandler = new ErrorHandler($firnr, $data['data'][$firnr], $body['error'], $this->source);
-                    $body = null;
-                    
-                    $data['data'][$firnr]['statusCode'] = $errorHandler->getStatusCode();
-                    
-                    if($errorHandler->handleError())
-                    {                        
-                       unset($data['allfirnr'][$firnr]);
-                    }
-                }               
-                
-                $this->target->save($firnr, $data['data'][$firnr]['id'], $data['data'][$firnr]['locale'], $body, $data['countryCode'], $data['sid'], $data['data'][$firnr]['statusCode']);
-                
-            }
-            
+//            if(!isset($data['data'])) 
+//            {
+//                if(isset($data['allfirnr']))
+//                {
+//                    $this->source->updateProcessed($data['allfirnr'], 1);
+//                }
+//                
+//                break;
+//            }
+//            
+//            foreach($data['data'] as $firnr => &$fb)
+//            {
+//                $batch[$firnr] = $app->request('GET', '/' . $fb['id'] . '?fields=' . $queryFields . '&locale=' . $fb['locale']);
+//            }
+//            
+//            try
+//            {
+//                $responses = $app->sendBatchRequest($batch);
+//            }
+//            catch(Exception $e)
+//            {
+//                continue;
+//            }
+//            
+//            foreach($responses as $firnr => $response)
+//            {
+//                $body = null;
+//                $data['data'][$firnr]['statusCode'] = 0;
+//                $body = $response->getBody();
+//                
+//                if($response->isError())
+//                {
+//                    $body = json_decode($body, true);
+//                    $errorHandler = new ErrorHandler($firnr, $data['data'][$firnr], $body['error'], $this->source);
+//                    $body = null;
+//                    
+//                    $data['data'][$firnr]['statusCode'] = $errorHandler->getStatusCode();
+//                    
+//                    if($errorHandler->handleError())
+//                    {                        
+//                       unset($data['allfirnr'][$firnr]);
+//                    }
+//                }               
+//                
+//                $this->target->save($data['data'][$firnr]['crw_fir_nr'], $data['data'][$firnr]['id'], $data['data'][$firnr]['locale'], $body, $data['countryCode'], $data['sid'], $data['data'][$firnr]['statusCode']);
+//                
+//            }
+            print_r($data['allfirnr']);die;
             $this->source->updateProcessed($data['allfirnr'], 1);
+            echo "update";die;
             sleep($this->sleepTime);
         }
         
